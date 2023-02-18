@@ -69,7 +69,7 @@
           <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Felix</a>
+          <a href="#" class="d-block">{{user}}</a>
         </div>
       </div>
 
@@ -142,14 +142,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                    {% for mahsulot in mahsulotlar %}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Un</td>
-                            <td>Qozoq Oliy navi</td>
-                            <td>530000 so'm</td>
-                            <td>50</td>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{mahsulot.nom}}</td>
+                            <td>{{mahsulot.brend}}</td>
+                            <td>{{mahsulot.narx}}</td>
+                            <td>{{mahsulot.miqdor}} {{mahsulot.olchov}}</td>
                             <td><a href="#"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
                         </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
