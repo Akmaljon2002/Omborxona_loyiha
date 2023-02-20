@@ -38,7 +38,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Home</a>
+        <a href="/home/" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -66,7 +66,7 @@
           <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Felix</a>
+          <a href="#" class="d-block">{{user}}</a>
         </div>
       </div>
 
@@ -81,13 +81,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/clients/" class="nav-link active">
+            <a href="/bolim/clientlar/" class="nav-link active">
               <i class="nav-icon far fa-circle text-danger"></i>
               <p class="text">Clients</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/goods/" class="nav-link">
+            <a href="/bolim/mahsulotlar/" class="nav-link">
               <i class="nav-icon far fa-circle text-info"></i>
               <p>Products</p>
             </a>
@@ -110,7 +110,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-             <li class="breadcrumb-item"><a href="#">Home</a></li>
+             <li class="breadcrumb-item"><a href="/bolim/">Home</a></li>
               <li class="breadcrumb-item active">Clients</li>
               <li class="breadcrumb-item"><a href="/logout/">Logout</a></li>
             </ol>
@@ -135,18 +135,21 @@
                             <th scope="col" style="text-align: center;">Do'kon nomi</th>
                             <th scope="col" style="text-align: center;">Telefon raqami</th>
                             <th scope="col" style="text-align: center;">Manzili</th>
-                            <th scope="col" style="text-align: center;"></th>
+                            <th scope="col" style="text-align: center;">Qarz</th>
                         </tr>
                     </thead>
                     <tbody>
+                    {% for client in clientlar %}
                         <tr>
-                            <th scope="row">1.</th>
-                            <td>Ali</td>
-                            <td>Baraka</td>
-                            <td>+998911115555</td>
-                            <td>Farg'ona markazi, Askiya</td>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{client.ism}}</td>
+                            <td>{{client.nom}}</td>
+                            <td>+{{client.tel}}</td>
+                            <td>{{client.manzil}}</td>
+                            <td>{{client.ombor}}</td>
                             <td><a href="#"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
                         </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -164,20 +167,22 @@
           </div>
     
           <!-- Modal body -->
-          <form action="#" id="new-product-form" >
+          <form method="post" >{% csrf_token %}
             <div class="modal-body">
               <label for="new-product-name">FIO:</label>
-              <input type="text" name="client_name" placeholder="Mijoz to'liq ismi..." id="new-product-name" class="form-control" required>
+              <input type="text" name="ism" placeholder="Mijoz to'liq ismi..." id="new-product-name" class="form-control" required>
                 <br>
               <label for="new-product-name">Do'kon nomi:</label>
-              <input type="text" name="client_shop" placeholder="Do'kon nomi..." id="new-product-brend" class="form-control" required>
+              <input type="text" name="nom" placeholder="Do'kon nomi..." id="new-product-brend" class="form-control" required>
               <br>
               <label for="new-product-name">Telefon raqami:</label>
-              <input type="text" name="client_phone" placeholder="Telefon raqami..." id="new-product-price" class="form-control" required>
+              <input type="text" name="tel" placeholder="Telefon raqami..." id="new-product-price" class="form-control" required>
               <br>
               <label for="new-product-name">Manzili:</label>
-              <input type="text" name="client_address" placeholder="Mijoz manzili..." id="new-product-amount" class="form-control" required>
+              <input type="text" name="manzil" placeholder="Mijoz manzili..." id="new-product-amount" class="form-control" required>
               <br>
+                <label for="new-product-name">Qarzi:</label>
+              <input type="text" name="qarz" placeholder="Mijoz qarzi...." id="new-product-qarz" class="form-control" required>
             </div>
     
           <!-- Modal footer -->

@@ -32,3 +32,24 @@ class MahsulotlarView(View):
             'user':request.user
         }
         return render(request, 'products.html', data)
+
+# 2
+class ClientlarView(View):
+    def get(self, request):
+        data = {
+            'clientlar':Client.objects.filter(ombor__user=request.user),
+            'user':request.user
+        }
+        return render(request, 'clients.html', data)
+    def post(self, request):
+        if request.user.is_authenticated:
+            ombor = Ombor.objects.get(user=request.user)
+            Client.objects.create(
+                nom = request.POST.get('nom'),
+                manzil = request.POST.get('manzil'),
+                ism = request.POST.get('ism'),
+                tel = request.POST.get('tel'),
+                qarz = request.POST.get('qarz'),
+                ombor = ombor
+            )
+            return redirect("/bolim/clientlar/")
