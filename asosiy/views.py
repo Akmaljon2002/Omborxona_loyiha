@@ -32,6 +32,19 @@ class MahsulotlarView(View):
             'user':request.user
         }
         return render(request, 'products.html', data)
+    def post(self, request):
+        if request.user.is_authenticated:
+            ombor = Ombor.objects.get(user=request.user)
+            Mahsulot.objects.create(
+                nom = request.POST.get('nom'),
+                brend = request.POST.get('brend'),
+                miqdor = request.POST.get('miqdor'),
+                narx = request.POST.get('narx'),
+                olchov = request.POST.get('olchov'),
+                kelgan_sana = request.POST.get('k_sana'),
+                ombor = ombor
+            )
+            return redirect("mahsulotlar")
 
 # 2
 class ClientlarView(View):
@@ -52,4 +65,25 @@ class ClientlarView(View):
                 qarz = request.POST.get('qarz'),
                 ombor = ombor
             )
-            return redirect("/bolim/clientlar/")
+            return redirect("clients")
+
+class MahsulotDeleteView(View):
+    def get(self, request, pk):
+        pr = Mahsulot.objects.get(id=pk)
+        if pr.ombor == Ombor.objects.get(user=request.user):
+            pr.delete()
+        return redirect("mahsulotlar")
+
+class MahsulotEditView(View):
+    def get(self, request, pk):
+        pr = Mahsulot.objects.get(id=pk)
+        if pr.ombor == Ombor.objects.get(user=request.user):
+            return render(request, 'product_update.html', {'product' : pr})
+        return redirect("mahsulotlar")
+
+    def post(self, request, pk):
+        Mahsulot.objects.filter(id=pk).update(
+            miqdor = request.POST.get('amount'),
+            narx = request.POST.get('price'),
+        )
+        return redirect("mahsulotlar")

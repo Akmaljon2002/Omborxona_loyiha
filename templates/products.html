@@ -149,7 +149,8 @@
                             <td>{{mahsulot.brend}}</td>
                             <td>{{mahsulot.narx}}</td>
                             <td>{{mahsulot.miqdor}} {{mahsulot.olchov}}</td>
-                            <td><a href="#"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
+                            <td><a href="{% url 'mahsulot-edit' mahsulot.id %}"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a>
+                            <a href="{% url 'mahsulot-del' mahsulot.id %}"><button type="submit" class="btn btn-warning" data-toggle="modal">O'chirish</button></a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -170,19 +171,25 @@
           </div>
     
           <!-- Modal body -->
-          <form action="#" id="new-product-form" >
+          <form method="post" >{% csrf_token %}
             <div class="modal-body">
               <label for="new-product-name">Nomi:</label>
-              <input type="text" name="pr_name" placeholder="Mahsulot nomi..." id="new-product-name" class="form-control" required>
+              <input type="text" name="nom" placeholder="Mahsulot nomi..." id="new-product-name" class="form-control" required>
               <br>
               <label for="new-product-name">Brend:</label>
-              <input type="text" name="pr_brand" placeholder="Mahsulot brendi..." id="new-product-brend" class="form-control" required>
+              <input type="text" name="brend" placeholder="Mahsulot brendi..." id="new-product-brend" class="form-control" required>
               <br>
               <label for="new-product-name">Narxi:</label>
-              <input type="text" name="pr_price" placeholder="Maxsulot narxi..." id="new-product-price" class="form-control" required>
+              <input type="text" name="narx" placeholder="Maxsulot narxi..." id="new-product-price" class="form-control" required>
               <br>
               <label for="new-product-name">Miqdori:</label>
-              <input type="number" name="pr_amount" placeholder="Mahsulot miqdori..." id="new-product-amount" class="form-control" required>
+              <input type="number" name="miqdor" placeholder="Mahsulot miqdori..." id="new-product-m" class="form-control" required>
+                <br>
+              <label for="new-product-name">O'lchov:</label>
+              <input type="text" name="olchov" placeholder="Mahsulot miqdorini olchov birligi..." id="new-product-o" class="form-control" required>
+              <br>
+                <label for="new-product-name">Kelgan sana:</label>
+              <input type="date" name="k_sana" placeholder="Mahsulot kelgan sana..." id="new-product-k" class="form-control" required>
               <br>
             </div>
     
