@@ -110,6 +110,12 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
+
+                <form method="get">
+                <input type="text" name="c_qidirish">
+                <button type="submit">Qidirish</button>
+                </form>
+
              <li class="breadcrumb-item"><a href="/bolim/">Home</a></li>
               <li class="breadcrumb-item active">Clients</li>
               <li class="breadcrumb-item"><a href="/logout/">Logout</a></li>
@@ -147,7 +153,8 @@
                             <td>+{{client.tel}}</td>
                             <td>{{client.manzil}}</td>
                             <td>{{client.ombor}}</td>
-                            <td><a href="#"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
+                            <td><a href="{% url 'client-edit' client.id %}"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a>
+                            <a href="{% url 'client-del' client.id %}"><button type="submit" class="btn btn-warning" data-toggle="modal">O'chirish</button></a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

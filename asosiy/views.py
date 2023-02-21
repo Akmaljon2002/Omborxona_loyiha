@@ -24,11 +24,18 @@ class BolimlarView(View):
     def get(self, request):
         return render(request, 'bulimlar.html')
 
-
+# 3
 class MahsulotlarView(View):
     def get(self, request):
+        soz = request.GET.get('m_qidirish')
+        if soz is None:
+            mahsulot = Mahsulot.objects.filter(ombor__user=request.user)
+        else:
+            mahsulot = Mahsulot.objects.filter(ombor__user=request.user, nom__contains=soz)|\
+                       Mahsulot.objects.filter(ombor__user=request.user, brend__contains=soz)|\
+                       Mahsulot.objects.filter(ombor__user=request.user, kelgan_sana__contains=soz)
         data = {
-            "mahsulotlar":Mahsulot.objects.filter(ombor__user=request.user),
+            "mahsulotlar":mahsulot,
             'user':request.user
         }
         return render(request, 'products.html', data)
@@ -46,11 +53,19 @@ class MahsulotlarView(View):
             )
             return redirect("mahsulotlar")
 
-# 2
+# 4
 class ClientlarView(View):
     def get(self, request):
+        soz = request.GET.get('c_qidirish')
+        if soz is None:
+            client = Client.objects.filter(ombor__user=request.user)
+        else:
+            client = Client.objects.filter(ombor__user=request.user, ism__contains=soz)|\
+                     Client.objects.filter(ombor__user=request.user, nom__contains=soz)|\
+                     Client.objects.filter(ombor__user=request.user, manzil__contains=soz)|\
+                     Client.objects.filter(ombor__user=request.user, tel__contains=soz)
         data = {
-            'clientlar':Client.objects.filter(ombor__user=request.user),
+            'clientlar':client,
             'user':request.user
         }
         return render(request, 'clients.html', data)
@@ -66,6 +81,31 @@ class ClientlarView(View):
                 ombor = ombor
             )
             return redirect("clients")
+
+# 1
+class ClientDeleteView(View):
+    def get(self, request, pk):
+        pr = Client.objects.get(id=pk)
+        if pr.ombor == Ombor.objects.get(user=request.user):
+            pr.delete()
+        return redirect("clients")
+
+# 2
+class ClientEditView(View):
+    def get(self, request, pk):
+        pr = Client.objects.get(id=pk)
+        if pr.ombor == Ombor.objects.get(user=request.user):
+            return render(request, 'client_update.html', {'client':pr})
+        return redirect("clients")
+    def post(self, request, pk):
+        Client.objects.filter(id=pk).update(
+            nom = request.POST.get('nom'),
+            ism = request.POST.get('ism'),
+            tel = request.POST.get('tel'),
+            manzil = request.POST.get('manzil'),
+            qarz = request.POST.get('qarz')
+        )
+        return redirect("clients")
 
 class MahsulotDeleteView(View):
     def get(self, request, pk):
