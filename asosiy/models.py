@@ -31,3 +31,4 @@ class Client(models.Model):
     ombor = models.ForeignKey(Ombor, on_delete=models.CASCADE, related_name='clientlari')
     def __str__(self):
         return f"{self.ism} ({self.nom})"
+
